@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            width: 800px;
+            height: 400px;
+            background-color: darkblue;
+            margin: auto;
+            border: 1px solid transparent;
+            overflow: auto;
+        }
+        .container div{
+            width: 100px;
+            height: 100px;
+            background-color: rgb(198, 245, 47);
+            margin: 5px;
+            float: left;
+            text-align: center;
+            line-height: 100px;
+            font-family: sans-serif;
+            font-size: 40px;
+        }
+    </style>
+    <script>
+        var count = 1;
+        function clickHandler(){
+            var elm = document.createElement("div"); // virtual
+                elm.textContent = count;
+            document.getElementsByClassName("container")[0].appendChild(elm);
+            count++;
+        }
+        function init(){
+            document.getElementsByTagName("button")[0].addEventListener("click", clickHandler)
+        }
+        document.addEventListener("DOMContentLoaded",init)
+    </script>
+</head>
+<body>
+    <button>Add Box</button>
+    <button>Stop Adding Box</button>
+    <hr>
+    <div class="container">
+    </div>
+</body>
+</html>
