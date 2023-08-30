@@ -26,15 +26,25 @@
         }
     </style>
     <script>
+        function clickHandler(evt){
+            // alert(evt.target.innerText);
+            if(evt.target.getAttribute("class") !== "container"){
+                document.getElementsByClassName("container")[0].removeChild(evt.target)
+            }else{
+                alert("you must click on the box")
+            }
+        }
         var count = 1;
         function addbox(){
             var box = document.createElement("div");
                 box.innerText = count;
+                // box.addEventListener("click", clickHandler)
             document.getElementsByClassName("container")[0].appendChild(box);
             count++
 
         };
         document.addEventListener("DOMContentLoaded", function(){
+            document.getElementsByClassName("container")[0].addEventListener("click", clickHandler)
            for(var i = 0 ; i < 50; i++){
             addbox();
            }

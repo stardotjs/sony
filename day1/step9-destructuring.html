@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        var hero = {
+            title : "Ironman",
+            power : 6,
+            firstname : "Tony",
+            lastname : "Stark",
+            city : "New York"
+        };
+
+        // var temphero = hero;
+        // console.log("Temphero ", temphero.power ); // ??? 6 
+        // console.log("Hero ", hero.power ); // ??? 6
+        // temphero.power = 10;
+        // console.log("Temphero ", temphero.power ); // ???  10
+        // console.log("Hero ", hero.power ); // ???  6
+
+       /*  
+        var herotitle = hero.title;
+        var heropower = hero.power;
+        var herofirstname = hero.firstname;
+        var herolastname = hero.lastname;
+        var herocity = hero.city;
+        console.log(heropower); // 6
+        console.log(hero.power); // 6
+        heropower = 10;
+        console.log(heropower); // 10
+        console.log(hero.power); // 6 
+        */
+        // destructuring
+       /*  
+       var { 
+            title : herotitle, 
+            power : heropower, 
+            firstname : herofirstname, 
+            lastname : herolastname, 
+            city : herocity} = hero;
+
+        console.log(heropower); // 6
+        console.log(hero.power); // 6
+        heropower = 10;
+        console.log(heropower); // 10
+        console.log(hero.power); // 6  
+        */
+
+       /*  var { 
+            title : title, 
+            power : power, 
+            firstname : firstname, 
+            lastname : lastname, 
+            city : city} = hero; */
+
+        var {title, power, firstname, lastname, city} = hero;
+
+        console.log(power); // 6
+        console.log(hero.power); // 6
+        power = 10;
+        console.log(power); // 10
+        console.log(hero.power); // 6  
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
