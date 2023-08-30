@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            width: 900px;
+            height: 450px;
+            background-color: darkslategray;
+            margin: auto;
+            border : 1px solid transparent;
+            overflow: auto;
+        }
+        .container div{
+            width: 100px;
+            height: 100px;
+            background-color: rgb(213, 211, 158);
+            margin: 5px;
+            float: left;
+            text-align: center;
+            line-height: 100px;
+            font-family: sans-serif;
+            font-size: 24px;
+        }
+    </style>
+    <script>
+        var count = 1;
+        function addbox(){
+            var box = document.createElement("div");
+                box.innerText = count;
+            document.getElementsByClassName("container")[0].appendChild(box);
+            count++
+
+        };
+        document.addEventListener("DOMContentLoaded", function(){
+           for(var i = 0 ; i < 50; i++){
+            addbox();
+           }
+        })
+    </script>
+</head>
+<body>
+    <div class="container"></div>
+</body>
+</html>
