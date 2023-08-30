@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        /* 
+        function adder(num1, num2){
+            return num1 + num2;
+        }; 
+        */
+        /* 
+        function adder(num1, num2){
+            var val1 = num1 || 0;
+            var val2 = num2 || 0;
+            return val1 + val2;
+        }; 
+        */
+
+        // Default Parameters
+        /* function adder(num1 = 0, num2 = 0){
+            return num1 + num2;
+        }; */
+
+       /*  function adder(){
+            var total = 0;
+            for(var i = 0; i < arguments.length; i++){
+                total+= arguments[i]
+            }
+            return total;
+        }; */
+        // REST Parameters
+        function adder(...nums){
+            var total = 0;
+            for(var i = 0; i < nums.length; i++){
+                total+= nums[i]
+            }
+            return total;
+        };
+      /*   console.log(adder(5));
+        console.log(adder(5,6));
+        console.log(adder(5,6,7));
+        console.log(adder(5,6,7,8));
+        console.log(adder(5,6,7,8,9)); */
+        var arr = [5,6,7,8,9,10];
+        // console.log(adder(arr[0],arr[1],arr[2],arr[3],arr[4],arr[5]));
+
+        // Spread Operator / Syntax
+        console.log(adder(...arr));
+
+        var hero = {
+            title : "Ironman",
+            power : 6,
+            firstname : "Tony",
+            lastname : "Stark",
+            city : "New York",
+            movies : ['Ironman part 1', 'Ironman part 2']
+        };
+
+        var temphero = {...hero};
+        console.log(temphero.power);
+        console.log(hero.power);
+        temphero.power = 10;
+        console.log(temphero.power);
+        console.log(hero.power);
+        console.log(temphero.movies[1]);
+        temphero.movies[1] = "Ironmonger";
+        console.log(temphero.movies[1]);
+        console.log(hero.movies[1]);
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
