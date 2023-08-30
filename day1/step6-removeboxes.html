@@ -36,9 +36,27 @@
         function stopHandler(){
             document.getElementsByTagName("button")[0].removeEventListener("click", clickHandler)
         }
+        function removeFirstBox(){
+           var selectedBox = document.getElementsByClassName("container")[0].firstChild;
+           if(selectedBox){
+               document.getElementsByClassName("container")[0].removeChild(selectedBox);
+            }else{
+                alert("nothing to remove")
+            }
+        }
+        function removeLastBox(){
+           var selectedBox = document.getElementsByClassName("container")[0].lastChild;
+           if(selectedBox){
+               document.getElementsByClassName("container")[0].removeChild(selectedBox);
+            }else{
+                alert("nothing to remove")
+            }
+        }
         function init(){
             document.getElementsByTagName("button")[0].addEventListener("click", clickHandler)
             document.getElementsByTagName("button")[1].addEventListener("click", stopHandler)
+            document.getElementsByTagName("button")[2].addEventListener("click", removeFirstBox)
+            document.getElementsByTagName("button")[3].addEventListener("click", removeLastBox)
         }
         document.addEventListener("DOMContentLoaded",init)
     </script>
@@ -46,8 +64,9 @@
 <body>
     <button>Add Box</button>
     <button>Stop Adding Box</button>
+    <button>Remove First Box</button>
+    <button>Remove Last Box</button>
     <hr>
-    <div class="container">
-    </div>
+    <div class="container"></div>
 </body>
 </html>

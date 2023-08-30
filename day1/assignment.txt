@@ -1,0 +1,21 @@
+create 3 functions 
+call them fun1, fun2 and fun3 
+
+call the fun1 on body onload 
+call the fun2 on window addEventListener load 
+call the fun3 on document addEventListener DOMContentLoaded 
+
+and findout the order in which these gets executed 
+
+
+DOMContentLoaded
+window 
+body 
+
+DOMContentLoaded
+body 
+window 
+
+body 
+window 
+DOMContentLoaded
