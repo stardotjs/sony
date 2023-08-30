@@ -38,11 +38,13 @@
             }
             return total;
         };
-      /*   console.log(adder(5));
+       /*   
+        console.log(adder(5));
         console.log(adder(5,6));
         console.log(adder(5,6,7));
         console.log(adder(5,6,7,8));
-        console.log(adder(5,6,7,8,9)); */
+        console.log(adder(5,6,7,8,9)); 
+        */
         var arr = [5,6,7,8,9,10];
         // console.log(adder(arr[0],arr[1],arr[2],arr[3],arr[4],arr[5]));
 
@@ -58,7 +60,8 @@
             movies : ['Ironman part 1', 'Ironman part 2']
         };
 
-        var temphero = {...hero};
+        // var temphero = {...hero};
+        var temphero = JSON.parse(JSON.stringify(hero));
         console.log(temphero.power);
         console.log(hero.power);
         temphero.power = 10;

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        var favNum = [12,14,20,2,4,21,56,74,33,1,7,93,5,10,8,10,3,52,7,19,84,99];
+        /*  
+        for(var i = 0; i < favNum.length; i++){
+            console.log(favNum[i]);
+        }; 
+        */
+        /*  
+        favNum.forEach(function(val,idx,arr){
+            console.log(val);
+        }) 
+        */
+        // favNum.forEach(val => console.log(val) )
+
+        /* var doubleFavNums = [];
+
+        for(var i = 0; i < favNum.length; i++){
+            doubleFavNums.push(favNum[i] * 2);
+        };  */
+
+        /* 
+        var doubleFavNums = favNum.map(function(val, idx, arr){
+            return val * 2
+        }) 
+        */
+       /*
+       var doubleFavNums = favNum.map(val => val * 2 );
+       console.log(favNum);
+       console.log(doubleFavNums);
+       */
+      /*
+      var lessThan50 = favNum.filter(val => val < 50);
+      console.log(lessThan50);
+      */
+
+     // var allValsLessThan250 = favNum.every( val => val < 250 );
+     /*
+     var someValsLessThan50 = favNum.some( val => val < 250 );
+     
+     console.log(someValsLessThan50);// false
+     */
+    // 
+    /*
+    var total = favNum.reduce(function(initVal, val, idx, arr){
+        return initVal + val;
+    },0);
+    
+    console.log(total);
+    */
+   /*
+   var total = favNum.reduceRight((initVal, val) => initVal + val, 0);
+   
+   console.log(total);
+   */
+    // console.log(favNum.lastIndexOf(10));
+
+    /* 
+    double the favNum array and list down the values that are less than 50
+     */
+    var lessThan50AfterDouble = favNum.map(val => val * 2).filter(val => val < 50);
+    console.log(lessThan50AfterDouble);
+    var SumOflessThan50AfterDouble = favNum
+    .map(val => val * 2)
+    .filter(val => val < 50)
+    .reduce((initVal,val) => initVal + val);
+    console.log(SumOflessThan50AfterDouble);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

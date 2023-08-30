@@ -54,12 +54,16 @@
         };
         console.log(cart.getSellingPrice());// 120 
         */
+       var getCostPrice = function(){
+        return 10000;
+       };
+       
         var cart = {
            title : "cart",
-           getCostPrice : function(){
+           getCostPrice : () => {
                 return 100;
             },
-            getSellingPrice : function(){
+            getSellingPrice : () => {
                 var calculateProfit = () => {
                     return this.getCostPrice() * 0.2;
                 }
