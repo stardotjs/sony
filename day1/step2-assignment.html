@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function fun1(){
+            console.log("body onload")
+            // document.getElementsByTagName("h1")[0].innerText = "body onload "
+        }
+        function fun2(){
+            console.log("window addEventListener load")
+            // document.getElementsByTagName("h1")[0].innerText = "window addEventListener load "
+        }
+        function fun3(){
+            console.log("document DOMContentLoaded")
+           //  document.getElementsByTagName("h1")[0].innerText = "document DOMContentLoaded "
+        }
+        window.addEventListener("load", fun2);
+        document.addEventListener("DOMContentLoaded", fun3);
+    </script>
+</head>
+<body onload="fun1()">
+    <h1></h1>
+</body>
+</html>
