@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        /* 
+             var hero = {
+                title : "Ironman",
+                power : 6,
+                firstname : "Tony",
+                lastname : "Stark",
+                city : "New York"
+            };
+
+        */
+       let hero = Object.create(null);
+       Object.defineProperties(hero,{
+        title : { value : "Ironman" },
+        power : { value : 6, writable : true },
+        firstname : { value : "Tony" },
+        lastname : { value : "Stark" },
+        city : { value : "New York", writable : true },
+        accessPower : {
+            get : function(){
+                return this.power
+            },
+            set : function(npower){
+                this.power = npower;
+            }
+        },
+        accessCity : {
+            get : function(){
+                return this.city
+            },
+            set : function(ncity){
+                this.city = ncity;
+            }
+        }
+       })
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

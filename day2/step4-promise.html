@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        /*
+        promise
+        .then(function(res){
+            console.log("Result", res)
+        })
+        .catch(function(err){
+            console.log("Error", err)
+        })
+        .finally(function(){
+            console.log("Promise is now settled")
+        })
+        */
+       function init(){
+           var promise = new Promise(function( resolve, reject ){
+               setTimeout(function(){
+                   if(true){
+                       return resolve([12,14,20,2,4,21,56,74,33,1,7,93,5,10,8,10,3,52,7,19,84,99])
+                   }else{
+                       return reject("Promise was rejected")
+                   }
+               },2000)
+           });
+            promise
+            .then(function(res){
+                console.log("Result", res)
+                document.getElementById("tn").textContent = res.length;
+                return res
+            })
+            .then(function(res){
+                console.log("Result", res)
+                res.filter( val => val < 50 ).forEach(val => document.getElementById("lessbox").innerHTML+= `<li> Value is :  ${val} </li>`)
+                return res
+            })
+            .then(function(res){
+                console.log("Result", res)
+                return res
+            })
+            .then(function(res){
+                console.log("Result", res)
+            });
+        }
+        document.addEventListener("DOMContentLoaded", init);
+    </script>
+</head>
+<body>
+    <h1>Total Numbers <span id="tn"></span></h1>
+    <div class="lessbox">
+        <h1>Values Less than 50</h1>
+        <ol id="lessbox"></ol>
+    </div>
+    <div class="greatbox">
+        <h1>Values Greater than 50</h1>
+        <ol></ol>
+    </div>
+    <div class="totalbox">
+        <h1>Sum of all values</h1>
+        <ol></ol>
+    </div>
+</body>
+</html>
