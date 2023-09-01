@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="lib/jquery-3.7.1.js"></script>
+    <script>
+        function reload(){
+            $.ajax({
+            url : "/data",
+            success : function(res){
+                // console.log(res);
+                $("#grid").empty();
+                res.forEach((val, idx)=>{
+                    $("#grid").append(`
+                    <tr>
+                        <th scope="row">${idx + 1}</th>
+                        <td>${ val.title }</td>
+                        <td>${ val.firstname }</td>
+                        <td>${ val.lastname }</td>
+                        <td>${ val.power }</td>
+                        <td>${ val.city }</td>
+                        <td>
+                            <button class="btn btn-warning"> Edit ${ val.title } </button>    
+                        </td>
+                        <td>
+                            <button class="btn btn-danger"> Delete ${ val.title } </button>
+                        </td>
+                    </tr>
+                    `)
+                })
+            },error : function(err){
+                console.log("Error ", err)
+            }
+        })
+        }
+        function clickHandler(){
+            
+            let nhero = {
+                title :$("#htitle").val(),
+                firstname : $("#hfname").val(),
+                lastname : $("#hlname").val(),
+                power : $("#hpower").val(),
+                city : $("#hcity").val()
+            };
+            // console.log(nhero);
+            $.ajax({
+                url : "/data",
+                method : "post",
+                data : JSON.stringify(nhero),
+                dataType : "JSON",
+                contentType : "application/json",
+                success : function(res){
+                    reload();
+                    console.log(res.message);
+                },
+                error : function(err){
+                    console.log("Error", err);
+                }
+            })
+        }
+        $(function(){
+           // alert("jquery is now loaded")
+            reload();
+            $("#addbtn").on("click", clickHandler)
+        })
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello from Express API</h1> 
+        <hr>
+        <div class="addhero">
+            <div class="mb-3">
+                <label for="htitle" class="form-label">Title</label>
+                <input type="text" class="form-control" id="htitle" >
+              </div>
+            <div class="mb-3">
+                <label for="hfname" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="hfname" >
+              </div>
+            <div class="mb-3">
+                <label for="hlname" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="hlname" >
+              </div>
+            <div class="mb-3">
+                <label for="hpower" class="form-label">Power</label>
+                <input type="range" min="1" max="10" step="1" class="form-control" id="hpower" >
+              </div>
+            <div class="mb-3">
+                <label for="hcity" class="form-label">City</label>
+                <input type="text" class="form-control" id="hcity" >
+              </div>
+            <button id="addbtn" class="btn btn-primary">Add Hero</button>
+        </div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Sl #</th>
+                <th scope="col">Title</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Power</th>
+                <th scope="col">City</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody id="grid"></tbody>
+          </table>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+++++++++++++++++++++++++++++++++
+
+
+
+
+
+
+
+
+
+
+
+const express = require("express");
+const mongoose = require("mongoose");
+const config = require("./config/config.json");
+
+/* 
+user._id : ObjectId
+user.title : String
+user.firstname : String
+user.lastname : String
+user.power : Int32
+user.city : String
+*/
+
+let ObjectId = mongoose.Schema.ObjectId;
+// let Int32 = mongoose.Schema.Int32;
+let User = mongoose.model("User", mongoose.Schema({
+    id : ObjectId,
+    title :String,
+    firstname : String,
+    lastname : String,
+    power : Number,
+    city : String
+}));
+
+mongoose.connect(config.cloudDbUrl)
+.then( res => console.log("DB Connected"))
+.catch( error => console.log("Error", error));
+
+
+let app = express();
+app.use(express.static(__dirname+"/public"));
+app.use(express.json())
+app.get("/data", (req, res) => {
+    // res.send("hello from express curd app");
+    User.find()
+    .then(dbres => 
+        res.send(dbres)
+        )
+    .catch(err => console.log(err))
+});
+app.post("/data", (req, res) => {
+    let user = new User(req.body);
+    user.save(req.body)
+    .then(dbres => res.send({ "message" : dbres.title+" was added" }))
+    .catch(error => console.log("Error", error))
+
+   // console.log(req.body);
+   // User.save(req.body).then(dbres => res.send({ "message" : dbres.title+" was added" })).catch(error)
+});
+
+/* app.get("/", (req, res) => {
+    // res.send("hello from express curd app");
+    User.find()
+    .then(dbres => 
+        res.render("home.pug", {
+            users : dbres
+        }))
+    .catch(err => console.log(err))
+}) */
+
+app.listen(config.port, config.host, (error) => {
+    error ? console.log("Error handler was called", error)
+    : console.log(`Server is now live on ${ config.host }:${ config.port }`)
+    
+});
