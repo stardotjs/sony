@@ -1,0 +1,95 @@
+{
+    "port" : 6060,
+    "host" : "localhost",
+    "cloudDbUrl" : "mongodb+srv://admin:xYvaLpuCAOQ7CUlV@cluster0.n7g760b.mongodb.net/sonyDB?retryWrites=true&w=majority",
+    "localDburl" : "mongodb://127.0.0.1:27017/sonyDB"
+}
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+const express = require("express");
+const mongoose = require("mongoose");
+const config = require("./config/config.json");
+
+/* 
+user._id : ObjectId
+user.title : String
+user.firstname : String
+user.lastname : String
+user.power : Int32
+user.city : String
+*/
+
+let ObjectId = mongoose.Schema.ObjectId;
+// let Int32 = mongoose.Schema.Int32;
+let User = mongoose.model("User", mongoose.Schema({
+    id : ObjectId,
+    title :String,
+    firstname : String,
+    lastname : String,
+    power : Number,
+    city : String
+}));
+
+mongoose.connect(config.cloudDbUrl)
+.then( res => console.log("DB Connected"))
+.catch( error => console.log("Error", error));
+
+
+let app = express();
+app.get("/", (req, res) => {
+    // res.send("hello from express curd app");
+    User.find()
+    .then(dbres => 
+        res.render("home.pug", {
+            users : dbres
+        }))
+    .catch(err => console.log(err))
+})
+
+app.listen(config.port, config.host, (error) => {
+    error ? console.log("Error handler was called", error)
+    : console.log(`Server is now live on ${ config.host }:${ config.port }`)
+    
+});
+
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+        link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous")
+    body
+        div(class="container")
+            h1 Heroes List 
+            hr
+            table(class="table")
+                thead
+                    tr
+                        th Sl#
+                        th Title
+                        th First Name
+                        th Last Name
+                        th Power
+                        th City
+                        th Edit
+                        th Delete
+                tbody 
+                    tr
+                        each user, index in users 
+                            td= index+1
+                            td= user.title
+                            td= user.firstname
+                            td= user.lastname
+                            td= user.power
+                            td= user.city
+                            td
+                                button(class="btn btn-warning") Edit
+                            td
+                                button(class="btn btn-danger") Delete
