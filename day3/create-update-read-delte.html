@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script>
+        // let temphero = {};
+        function reload(){
+            $.ajax({
+            url : "/data",
+            success : function(res){
+                // console.log(res);
+                $("#grid").empty();
+                res.forEach((val, idx)=>{
+                    $("#grid").append(`
+                    <tr>
+                        <th scope="row">${idx + 1}</th>
+                        <td>${ val.title }</td>
+                        <td>${ val.firstname }</td>
+                        <td>${ val.lastname }</td>
+                        <td>${ val.power }</td>
+                        <td>${ val.city }</td>
+                        <td>
+                            <button data-uid="${val._id}" class="btn btn-warning editbtn"> Edit ${ val.title } </button>    
+                        </td>
+                        <td>
+                            <button data-uid="${val._id}" class="btn btn-danger addbtn"> Delete ${ val.title } </button>
+                        </td>
+                    </tr>
+                    `)
+                })
+            },error : function(err){
+                console.log("Error ", err)
+            }
+        })
+        }
+        function clickHandler(){
+            
+            let nhero = {
+                title :$("#htitle").val(),
+                firstname : $("#hfname").val(),
+                lastname : $("#hlname").val(),
+                power : $("#hpower").val(),
+                city : $("#hcity").val()
+            };
+            // console.log(nhero);
+            $.ajax({
+                url : "/data",
+                method : "post",
+                data : JSON.stringify(nhero),
+                dataType : "JSON",
+                contentType : "application/json",
+                success : function(res){
+                    reload();
+                    console.log(res.message);
+                },
+                error : function(err){
+                    console.log("Error", err);
+                }
+            })
+        };
+        // delete 
+        function deleteHandler(evt){
+            // alert(evt.target.getAttribute("data-uid"))
+            $.ajax({
+                url : "/delete/"+evt.target.getAttribute("data-uid"),
+                method : "delete",
+                success : function(dbres){
+                    reload()
+                    // alert(dbres.message);
+                },
+                error : function(err){
+                    console.log(err)
+                }
+
+            })
+        }
+        function setUpdateHandler(evt){
+            $.ajax({
+                url : "/edit/"+evt.target.getAttribute("data-uid"),
+                method : "get",
+                success : function(dbres){
+                  /*  temphero = dbres
+                   $("#ehtitle").val(temphero.title)
+                   $("#ehfname").val(temphero.firstname)
+                   $("#ehlname").val(temphero.lastname)
+                   $("#ehpower").val(temphero.power)
+                   $("#ehcity").val(temphero.city) 
+                   */
+                  $(".addhero").hide(500);
+                  $(".edithero").show(500);
+                  $("#ehtitle").val(dbres.title)
+                  $("#ehfname").val(dbres.firstname)
+                  $("#ehlname").val(dbres.lastname)
+                  $("#ehpower").val(dbres.power)
+                  $("#ehcity").val(dbres.city) 
+                  $("#ehid").val(dbres._id) 
+                },
+                error : function(err){
+                    console.log(err)
+                }
+
+            })
+        };
+
+        function updateUserInfo(){
+            let ehero = {
+                title :$("#ehtitle").val(),
+                firstname : $("#ehfname").val(),
+                lastname : $("#ehlname").val(),
+                power : $("#ehpower").val(),
+                city : $("#ehcity").val()
+            };
+            // console.log(nhero);
+            $.ajax({
+                url : "/edit/"+$("#ehid").val(),
+                method : "put",
+                data : JSON.stringify(ehero),
+                dataType : "JSON",
+                contentType : "application/json",
+                success : function(res){
+                    reload();
+                    $(".addhero").show(500);
+                    $(".edithero").hide(500);
+                    console.log(res.message);
+                },
+                error : function(err){
+                    console.log("Error", err);
+                }
+            })
+        };
+
+        $(function(){
+           // alert("jquery is now loaded")
+            reload();
+            $("#addbtn").on("click", clickHandler);
+            $("#grid").on("click",".addbtn", deleteHandler);
+            $("#grid").on("click",".editbtn", setUpdateHandler);
+            $("#updatebtn").on("click", updateUserInfo);
+            $(".edithero").hide();
+        })
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello from Express API</h1> 
+        <hr>
+        <div class="addhero">
+            <h2>Add New Hero</h2>
+            <div class="mb-3">
+                <label for="htitle" class="form-label">Title</label>
+                <input type="text" class="form-control" id="htitle" >
+              </div>
+            <div class="mb-3">
+                <label for="hfname" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="hfname" >
+              </div>
+            <div class="mb-3">
+                <label for="hlname" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="hlname" >
+              </div>
+            <div class="mb-3">
+                <label for="hpower" class="form-label">Power</label>
+                <input type="range" min="1" max="10" step="1" class="form-control" id="hpower" >
+              </div>
+            <div class="mb-3">
+                <label for="hcity" class="form-label">City</label>
+                <input type="text" class="form-control" id="hcity" >
+              </div>
+            <button id="addbtn" class="btn btn-primary">Add Hero</button>
+        </div>
+        <div class="edithero">
+            <h2>Update Selecte Hero</h2>
+            <div class="mb-3">
+                <label for="ehtitle" class="form-label">Edit Title</label>
+                <input type="text" class="form-control" id="ehtitle" >
+              </div>
+            <div class="mb-3">
+                <label for="ehfname" class="form-label">Edit First Name</label>
+                <input type="text" class="form-control" id="ehfname" >
+              </div>
+            <div class="mb-3">
+                <label for="ehlname" class="form-label">Edit Last Name</label>
+                <input type="text" class="form-control" id="ehlname" >
+              </div>
+            <div class="mb-3">
+                <label for="ehpower" class="form-label">Edit Power</label>
+                <input type="range" min="1" max="10" step="1" class="form-control" id="ehpower" >
+              </div>
+            <div class="mb-3">
+                <label for="ehcity" class="form-label">Edit City</label>
+                <input type="text" class="form-control" id="ehcity" >
+                <input type="hidden" id="ehid" >
+              </div>
+            <button id="updatebtn" class="btn btn-primary">Update Hero</button>
+        </div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Sl #</th>
+                <th scope="col">Title</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Power</th>
+                <th scope="col">City</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody id="grid"></tbody>
+          </table>
+    </div>
+</body>
+</html>
